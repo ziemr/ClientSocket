@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="600dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/pop_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/title_clear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="2"
+                android:text="@string/popup_title_clear" />
+
+            <EditText
+                android:id="@+id/title_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:singleLine="true"
+                android:layout_marginTop="1dp"
+                android:textStyle="bold"
+                android:enabled="false"
+                android:textColor="@color/red"
+                android:hint="" />
+
+            <Button
+                android:id="@+id/title_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="2dp"
+                android:layout_weight="2"
+                android:text="@string/popup_title_ok" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/soft_btn_pressed" /><!-- gaigai -->
+
+        <GridView
+            android:id="@+id/gridview_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="1dp"
+            android:cacheColorHint="#00000000"
+            android:listSelector="@drawable/so_btn_normal"
+            android:numColumns="3"
+            android:stretchMode="columnWidth" />
+
+        <GridView
+            android:id="@+id/gridview_layout_calc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="1dp"
+            android:cacheColorHint="#00000000"
+            android:listSelector="@drawable/so_btn_normal"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:visibility="gone" />
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal" >
+        <Button
+            android:id="@+id/hot_key"
+            android:layout_height="40dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="2dp"/>
+        <Button
+            android:id="@+id/pup_settings"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_dialog_icon"/>
+    </LinearLayout>
+</RelativeLayout>

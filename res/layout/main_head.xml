@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_blue"
+    android:orientation="horizontal"
+    android:id="@+id/mainhead" >
+
+    <ImageView
+        android:id="@+id/headIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="4dp"
+        android:src="@drawable/biz_navigation_tab_news_pressed" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:src="@drawable/base_action_bar_back_divider" />
+
+    <TextView
+        android:id="@+id/headTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="2dp"
+        android:layout_weight="1"
+        android:text="@string/title_main"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        >
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/head_hide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        android:visibility="invisible" >
+        <TextView
+            android:id="@+id/txt_sum"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="#ffffffff"
+            android:textSize="18sp" />
+        
+        <TextView
+            android:id="@+id/txt_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="2dp"
+            android:layout_gravity="right"
+            android:gravity="center_vertical"
+            android:textColor="#ffffffff"
+            android:textSize="18sp" />
+    </LinearLayout>
+        <Button
+            android:id="@+id/head_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_dialog_icon"
+            android:visibility="gone"/>
+</LinearLayout>
