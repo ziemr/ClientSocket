@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.android.clientsocket.R;
 import com.android.clientsocket.provider.DBOperator;
-import com.android.clientsocket.util.Const;
 
 import android.app.Activity;
 import android.content.Context;

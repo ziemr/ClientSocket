@@ -7,6 +7,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import com.android.clientsocket.provider.DBOperator;
+import com.android.clientsocket.util.Const;
+import com.android.clientsocket.util.dataStructure;
+import com.android.clientsocket.util.dataStructure.strLeaf;
+import com.android.clientsocket.util.dataStructure.strRecordin;
+import com.android.clientsocket.util.dataStructure.strTree;
+
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -23,14 +31,19 @@ public class SocketClientManager {
 	private int port = 0;
 	public boolean isStop = false;
 	private SocketClientCallBack callBack;
+	private DBOperator dbOperator;
+	private Context context;
 
-	public synchronized static SocketClientManager getInstance() {
+	public synchronized static SocketClientManager getInstance(Context context) {
 		if (instance == null) {
-			instance = new SocketClientManager();
+			instance = new SocketClientManager(context);
 		}
 		return instance;
 	}
 
+	public   SocketClientManager(Context context) {
+		this.context = context;
+	}
 	/**
 	 * 通过这方法回调数据
 	 * 
@@ -70,11 +83,20 @@ public class SocketClientManager {
 
 		@Override
 		public void run() {
+			dbOperator = new DBOperator(context);
 			if (clientSocket == null) {
 				try {
 					clientSocket = new Socket(serverIP, port);
 					outStream = clientSocket.getOutputStream();
 					inStream = clientSocket.getInputStream();
+					
+					
+					SendMessage(Const.TABLE_User+
+				             Const.KEY_DELIMITER+
+				             ConnectionManager.getLocalIP()+
+				             Const.KEY_DELIMITER_S+
+				             dbOperator.getUserNo());
+					
 					new Thread(runHeartbeat).start();
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
@@ -88,11 +110,13 @@ public class SocketClientManager {
 	 * 心跳测试线程
 	 */
 	private Runnable runHeartbeat = new Runnable() {
-
+//         String user = null;
 		@Override
 		public void run() {
+//			user = dbOperator.getUserNo();
 			while (!isStop) {
-				SendMessage("IAMINTHETEST");
+//				SendMessage("IAMINTHETEST");
+				
 				byte[] buf = new byte[10240];
 				try {
 					inStream.read(buf);// 读取服务器端数据
@@ -103,7 +127,54 @@ public class SocketClientManager {
 						Message msg = mHandler.obtainMessage();
 						msg.what = 1;// 与服务器断开
 						mHandler.sendMessage(msg);// 知道断开后发送消息
-					} else {
+					} 
+					
+					 String[] operatorStr = res.split(Const.KEY_DELIMITER);
+				 	   String FLAG = operatorStr[0];
+				 	  if (FLAG.equals("TEL") ) {
+				 		   //
+				 	   } else if (FLAG.equals("FIND")) {
+				 		   //
+				 	   } else if (FLAG.endsWith(Const.SOCKET_RECORDIN)) {
+				  		  String[] tempStr = operatorStr[1].split(Const.KEY_DELIMITER_S);
+				   		strRecordin tmp = new dataStructure.strRecordin();
+				   		  tmp.set_id(Integer.valueOf(tempStr[0]));
+				   		 tmp.setRecordid(tempStr[1]);
+				  			tmp.setPhone(tempStr[2]);
+				  			tmp.setNum(Integer.valueOf(tempStr[3]));
+				  			tmp.setData1(tempStr[4]);
+				  			tmp.setData2(tempStr[5]);
+				  			tmp.setData3(tempStr[6]);
+				  			tmp.setData4(tempStr[7]);
+				  			tmp.setData5(tempStr[8]);
+				  			tmp.setDatee(tempStr[9]);
+				  			tmp.setData6(tempStr[10]);
+				  			tmp.setData7(tempStr[11]);
+				  			dbOperator.insertRecordin(tmp);
+				   	   } else if (FLAG.endsWith(Const.SOCKET_TREE)) {
+				  		  String[] tempStr = operatorStr[1].split(Const.KEY_DELIMITER_S);
+				 		  strTree tmp = new dataStructure.strTree();
+				 		  tmp.set_id(Integer.valueOf(tempStr[0]));
+							tmp.setTypeid(tempStr[1]);
+							tmp.setTypename(tempStr[2]);
+							tmp.setData1(tempStr[3]);
+							tmp.setData2(tempStr[4]);
+							dbOperator.insertTrees(tmp);
+							
+				 	   }else if (FLAG.endsWith(Const.SOCKET_LEAF)) {
+				  		  String[] tempStr = operatorStr[1].split(Const.KEY_DELIMITER_S);
+				  		  strLeaf tmp = new dataStructure.strLeaf();
+				  		  tmp.set_id(Integer.valueOf(tempStr[0]));
+				 			tmp.setTypeid(tempStr[1]);
+				 			tmp.setContid(tempStr[2]);
+				 			tmp.setContname(tempStr[3]);
+				 			tmp.setData1(tempStr[4]);
+				 			tmp.setData2(tempStr[5]);
+				 			dbOperator.insertLeaf(tmp);
+				 			
+				  	   }
+					
+					else {
 						Thread.sleep(10 * 1000);// 正常
 					}
 				} catch (IOException e) {

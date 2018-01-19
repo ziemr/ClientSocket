@@ -13,4 +13,6 @@
         <string name="popup_title_clear">清空</string>
     <string name="popup_title_ok">提交</string>
      <string name="num_limit" msgid="5253490235863170269">"最大为999"</string>
+     
+     <string name="renameConfirmation_title">名称</string>
 </resources>

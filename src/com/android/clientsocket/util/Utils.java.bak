@@ -72,26 +72,6 @@ public class Utils {
     public static String toWarContID(String mInt) {
     	return "WC" + mInt;
     }
-    
-    /////////////
-    
-    public static String toTreeID(int mInt) {
-    	return "FT" + Integer.toString(mInt);
-    }
-    
-    public static String toLeafID(int mInt) {
-    	return "FC" + Integer.toString(mInt);
-    }
-    
-    public static String toTreeID(String mInt) {
-    	return "FT" + mInt;
-    }
-    
-    public static String toLeafID(String mInt) {
-    	return "FC" + mInt;
-    }
-    
-    
     public static String toRekTypeID(int mInt) {
     	return "RE" + Integer.toString(mInt);
     }
@@ -171,7 +151,7 @@ public class Utils {
     }
 	
     /**
-     * 返回每个按钮应该出ˇ的角度(弧度单位)
+     * 返回每个按钮应该出现的角度(弧度单位)
      * @param index
      * @return double 角度(弧度单位)
      */
@@ -196,17 +176,17 @@ public class Utils {
             // 将按钮设为可见
             buttonList.get(i).setVisibility(View.VISIBLE);
 
-            // 按钮在X、Y方ˇ的移动距离
+            // 按钮在X、Y方向的移动距离
             float distanceX = (float) (flag*radius*(Math.cos(Utils.getAngle(buttonList.size(),i))));
             float distanceY = -(float) (flag*radius*(Math.sin(Utils.getAngle(buttonList.size(),i))));
 
-            // X方ˇ移动
+            // X方向移动
             objAnimatorX = ObjectAnimator.ofFloat(buttonList.get(i), "x", buttonList.get(i).getX(),buttonList.get(i).getX()+distanceX);
             objAnimatorX.setDuration(200);
             objAnimatorX.setStartDelay(100);
             objAnimatorX.start();
 
-            // Y方ˇ移动
+            // Y方向移动
             objAnimatorY = ObjectAnimator.ofFloat(buttonList.get(i), "y", buttonList.get(i).getY(),buttonList.get(i).getY()+distanceY);
             objAnimatorY.setDuration(200);
             objAnimatorY.setStartDelay(100);

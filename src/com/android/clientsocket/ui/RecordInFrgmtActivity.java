@@ -32,6 +32,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,15 +41,14 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class RecordInFrgmtActivity extends FragmentActivity {
 	private static final String TAG = "RecordListActivity";
@@ -160,7 +160,7 @@ public class RecordInFrgmtActivity extends FragmentActivity {
 
 	public void initPupWidowsAdapter() {
 		_TextArray = new String[Const.PUPWIN_CONTENT_ARRAY_MAX];
-		ArrayList<String> PupContName = mDbOperator.getPupLeafNames(Utils.toTypeID(PageIndex));
+		ArrayList<String> PupContName = mDbOperator.getPupLeafNames(Utils.toTreeID(PageIndex));
 		Iterator<String> ite = PupContName.iterator();
 		int k = 0;
 		while (ite.hasNext()) {
@@ -297,7 +297,7 @@ public class RecordInFrgmtActivity extends FragmentActivity {
 		mMenuWindow.setNum(NumStr);
 	}
 	private void setNextGirdDate( int index) {
-		ArrayList<String> PupContName = mDbOperator.getPupLeafNames(Utils.toTypeID(index));
+		ArrayList<String> PupContName = mDbOperator.getPupLeafNames(Utils.toTreeID(index));
 		Iterator<String> ite = PupContName.iterator();
 		int k = 0;
 		while(ite.hasNext()) {
@@ -321,7 +321,7 @@ public class RecordInFrgmtActivity extends FragmentActivity {
 		if (Bundle_Gesture)
 			order = "date DESC";
 		mQueryHandler.startQuery(QUERY_TOKEN, null, RecordinUri, RECORD_IN_PROJECTION,
-				Const.RECORDIN_COLUMN_RECORDID + "=? and data7 is not -1", new String[] { Bundle_recordid }, order);
+				"data7 is not -1", null, order);
 	}
 
 	@Override
@@ -440,7 +440,7 @@ public class RecordInFrgmtActivity extends FragmentActivity {
 //			}
 //			NUM_HEAD.setText(" " + Integer.toString(mDbOperator.queryRecordINNum(Bundle_recordid)) + "̨");
 		} else {
-			ArrayList<String> PupContName = mDbOperator.getPupLeafNames(Utils.toTypeID(PageIndex));
+			ArrayList<String> PupContName = mDbOperator.getPupLeafNames(Utils.toTreeID(PageIndex));
 			Iterator<String> ite = PupContName.iterator();
 			int k = 0;
 			while (ite.hasNext()) {

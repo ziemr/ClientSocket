@@ -20,6 +20,7 @@ public class OpenHelper extends SQLiteOpenHelper {
 		db.execSQL(
         		"CREATE TABLE User(" +
         		"_id INTEGER,"+
+        		"mac INTEGER,"+
         		"user STRING," +
                 "password STRING," +
                 "date STRING," +
@@ -36,7 +37,24 @@ public class OpenHelper extends SQLiteOpenHelper {
                 "p3 STRING," +
                 "v1 INTEGER" +
         		");");
-		
+        db.execSQL(
+        		"CREATE TABLE PupWinMage(" +
+        		"_id INTEGER,"+
+        		"typeID STRING,"+
+        		"typeName STRING," +
+                "data1 STRING," +
+                "data2 STRING" +
+        		");");
+        //Content
+        db.execSQL(
+        		"CREATE TABLE PupWinContent(" +
+        		"_id INTEGER,"+
+                "typeID STRING," +
+                "contID STRING," +
+        		"contName TEXT," +
+                "data1 STRING," +
+                "data2 STRING" +
+        		");");
 		 //Type
         db.execSQL(
         		"CREATE TABLE Tree(" +
@@ -47,33 +65,33 @@ public class OpenHelper extends SQLiteOpenHelper {
                 "data2 STRING" +
         		");");
         
-        db.execSQL(//app init 
-        		"insert into Tree(" +
-        		"_id,"+
-        		"typeID," +
-                "typeName )" +
-                "values(1,"+
-                "'T0',"+
-                "'STEP1'"+
-        		");");
-        db.execSQL(//app init 
-        		"insert into Tree(" +
-        		"_id,"+
-        		"typeID," +
-                "typeName )" +
-                "values(1,"+
-                "'T1',"+
-                "'STEP2'"+
-        		");");
-        db.execSQL(//app init 
-        		"insert into Tree(" +
-        		"_id,"+
-        		"typeID," +
-                "typeName )" +
-                "values(1,"+
-                "'T3',"+
-                "'STEP3'"+
-        		");");
+//        db.execSQL(//app init 
+//        		"insert into Tree(" +
+//        		"_id,"+
+//        		"typeID," +
+//                "typeName )" +
+//                "values(1,"+
+//                "'T0',"+
+//                "'STEP1'"+
+//        		");");
+//        db.execSQL(//app init 
+//        		"insert into Tree(" +
+//        		"_id,"+
+//        		"typeID," +
+//                "typeName )" +
+//                "values(1,"+
+//                "'T1',"+
+//                "'STEP2'"+
+//        		");");
+//        db.execSQL(//app init 
+//        		"insert into Tree(" +
+//        		"_id,"+
+//        		"typeID," +
+//                "typeName )" +
+//                "values(1,"+
+//                "'T3',"+
+//                "'STEP3'"+
+//        		");");
         
         //Content
         db.execSQL(
@@ -99,7 +117,8 @@ public class OpenHelper extends SQLiteOpenHelper {
                 "data5 STRING,"+  //piece
                 "date STRING," +
                 "data6 STRING,"+  //no use
-                "data7 STRING"+   //no use
+                "data7 STRING,"+   //no use
+                "modified int"+   //no use
         		");");
         db.execSQL(
         		"CREATE TABLE Remark(" +

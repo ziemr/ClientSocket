@@ -26,7 +26,7 @@
                 android:layout_marginTop="5dp"
                 android:inputType="number"
                 android:paddingRight="60dp"
-                android:maxLength="10"
+                android:maxLength="11"
                 android:paddingLeft="55dp" >
             </EditText>
             <ImageView
@@ -69,9 +69,9 @@
                 android:id="@+id/password"
                 android:layout_width="fill_parent"
                 android:layout_height="40dp" 
-                android:inputType="textPassword"
+                android:inputType="number"
                 android:paddingRight="60dp"
-                android:maxLength="20"
+                android:maxLength="2"
                 android:paddingLeft="55dp" >
             </EditText>
             <ImageView
@@ -80,14 +80,7 @@
                 android:layout_marginStart="7dp"               
                 android:layout_gravity="left|center_vertical"
                 android:background="@drawable/login_code_in_img" />
-               <Button 
-                android:id="@+id/bt_pwd_eye"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
-                android:background="@drawable/button_clear"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="10dp"
-                />
+              
                <Button 
                 android:id="@+id/bt_pwd_clear"
                 android:layout_width="23dp"
@@ -95,7 +88,6 @@
                 android:background="@drawable/button_clear"
                 android:visibility="invisible"
                 android:layout_gravity="right|center_vertical"
-                android:layout_marginRight="33dp"
                 />
         </FrameLayout>
    

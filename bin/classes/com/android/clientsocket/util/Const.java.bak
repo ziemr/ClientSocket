@@ -47,7 +47,7 @@ public class Const {
     public static final String COLUMN_RECORDIN_REMARK ="data6";
     
     //2013/11/3 add
-    public static final String DATABASE_NAME = "serversocket.db";   //==
+    public static final String DATABASE_NAME = "clientmp.db";   //==
     public static final String TABLE_User = "User";
 	public static final String TABLE_Contacts = "ContactsInfo";
 	public static final String TABLE_RecordIN = "RecordIN";
@@ -58,12 +58,11 @@ public class Const {
 	public static final String TABLE_PupWinIN = "PupWinIN";
 	
 	public static final String TABLE_SharedPrefs = "SharedPrefs";
-	public static final String TABLE_PupTree = "Tree";  //PoPupWidowsDataTree 's table
-	public static final String TABLE_PupLeaf = "Leaf"; //PoPupWidowsDataLeaf 's talbe
+	public static final String TABLE_Tree = "Tree";  //PoPupWidowsDataTree 's table
+	public static final String TABLE_Leaf = "Leaf"; //PoPupWidowsDataLeaf 's talbe
 	
-	public static final String TABLE_PupWinMage = "PupWinMage";  //PoPupWidowsDataTree 's table
-	public static final String TABLE_PupWinContent = "PupWinContent"; //PoPupWidowsDataLeaf 's talbe
-
+	public static final String TABLE_warhostree = "whtree";
+	public static final String TABLE_warhosleaf = "whleaf";
 	public static final String TABLE_WHRecordIN = "WHRecordIN";
 	public static final String TABLE_WHRecordIndex = "whrecordindex";
 	
@@ -93,9 +92,8 @@ public class Const {
 	
 	public static final String BUNDLE_TYPEID = "typeid";
 	public static final String COLOUM_TYPEID = "typeID";
-	public static final String AUTHORITY = "com.provider.serverDBprovider";  //==
+	public static final String AUTHORITY = "com.provider.clientmpDBprovider";  //==
 	
-	public static final String AUTHORITY_GASTOVE = "com.provider.gastoveDBprovider"; 
 	public static final long SLEEPTIEM = 200l;
 	public static final String BUNDLE_DRAG = "dragorclick";
 	public static final String KEY_DELIMITER = ",";

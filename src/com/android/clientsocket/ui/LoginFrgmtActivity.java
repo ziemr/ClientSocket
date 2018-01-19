@@ -1,14 +1,21 @@
 package com.android.clientsocket.ui;
 
+import java.net.SocketException;
+
 import com.android.clientsocket.R;
 import com.android.clientsocket.provider.DBOperator;
+import com.android.clientsocket.socket.ConnectionManager;
+import com.android.clientsocket.socket.Info;
 import com.android.clientsocket.socket.MainActivity;
 import com.android.clientsocket.util.Const;
 import com.android.clientsocket.util.DataBackUp;
 import com.android.clientsocket.util.Utils;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
@@ -19,6 +26,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -39,7 +47,7 @@ public class LoginFrgmtActivity extends FragmentActivity implements
     private Context mContext;
 	private Button bt_username_clear;
 	private Button bt_pwd_clear;
-	private Button bt_pwd_eye;
+//	private Button bt_pwd_eye;
 	private TextWatcher username_watcher;
 	private TextWatcher password_watcher;
 //	private GestureLockView view;
@@ -64,6 +72,36 @@ public class LoginFrgmtActivity extends FragmentActivity implements
 //		}
 		
 //	}
+    private void showIP() {
+		// TODO Auto-generated method stub
+		if (ConnectionManager.hasActivityConn(getApplicationContext())) {
+			String ip = "Not connectivity";
+			String networkType = "";
+			try {
+				ip = ConnectionManager.getLocalIP();
+			} catch (SocketException e) {
+				e.printStackTrace();
+			}
+			switch (ConnectionManager.getIPType(getApplicationContext())) {
+			case Info.NETWORK_TYPE_WIFI:
+				networkType = "WIFI";
+				et_name.setText(ip);
+				break;
+			case Info.NETWORK_TYPE_PHONE:
+				networkType = "手机网络";
+				et_name.setText(networkType + "，请打开WIFI");
+				break;
+			case Info.NETWORK_TYPE_OTHER:
+				networkType = "未识别的网络";
+				et_name.setText(networkType + "，请打开WIFI");
+				break;
+			}
+
+		} else {
+			Toast.makeText(getApplicationContext(), "请检查网络", Toast.LENGTH_LONG)
+					.show();
+		}
+	}
 	@Override
 	public void onCreate(Bundle state) {
 		super.onCreate(state);
@@ -78,16 +116,17 @@ public class LoginFrgmtActivity extends FragmentActivity implements
 //		new InitAppData(mContext).doInitApp();
 		setContentView(R.layout.activity_login);
 		et_name = (EditText) findViewById(R.id.username);
-		
-		et_name.setText(Utils.getMac());
+		et_name.setText(mDbOperator.getUsers());
+//		showIP();
 		et_pass = (EditText) findViewById(R.id.password);
+		et_pass.setFocusable(true);
 		bt_username_clear = (Button) findViewById(R.id.bt_username_clear);
 		bt_pwd_clear = (Button) findViewById(R.id.bt_pwd_clear);
-		bt_pwd_eye = (Button) findViewById(R.id.bt_pwd_eye);
+//		bt_pwd_eye = (Button) findViewById(R.id.bt_pwd_eye);
 		
 		bt_username_clear.setOnClickListener(this);
 		bt_pwd_clear.setOnClickListener(this);
-		bt_pwd_eye.setOnClickListener(this);
+//		bt_pwd_eye.setOnClickListener(this);
 		initWatcher();
 		et_name.addTextChangedListener(username_watcher);
 		et_pass.addTextChangedListener(password_watcher);
@@ -165,17 +204,13 @@ public class LoginFrgmtActivity extends FragmentActivity implements
 	 * 登陆
 	 */
 	private void loginOperator() {
-//		String loginName = et_name.getText().toString().trim();
-		String loginName = "admin";
+		String loginName = et_name.getText().toString().trim();
 		String loginPass = et_pass.getText().toString().trim();
 		if (loginPass.equals("") || loginPass == null) {
 			Utils.showToast(mContext, getString(R.string.login_msg_psw));
 			return;
 		}
-		//fffffffffffffffffff
-//		String result = mDbOperator.LoginCheck(loginName, loginPass);
-		String result = null;
-		startMainAvtivity();
+		String result = mDbOperator.LoginCheck(loginName, loginPass);
 		if (Const.LOGIN_USER.equals(result)) {
 			startMainAvtivity();
 		}else if (Const.LOGIN_DANGERWARNING.equals(result)) {
@@ -211,6 +246,7 @@ public class LoginFrgmtActivity extends FragmentActivity implements
 			break;
 		case R.id.register: // 注册新的用户
 //			mDbOperator.clearCallsAll();
+			ContactAddDialog();
 			Utils.showToast(mContext, "无法连接，请检查网络");
 			break;
 
@@ -228,18 +264,18 @@ public class LoginFrgmtActivity extends FragmentActivity implements
 		case R.id.bt_pwd_clear:
 			et_pass.setText("");
 			break;
-		case R.id.bt_pwd_eye:
-			if (et_pass.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-//				bt_pwd_eye.setBackgroundResource(R.drawable.button_eye_s);
-				et_pass.setInputType(InputType.TYPE_CLASS_TEXT
-						| InputType.TYPE_TEXT_VARIATION_NORMAL);
-			} else {
-//				bt_pwd_eye.setBackgroundResource(R.drawable.button_eye_n);
-				et_pass.setInputType(InputType.TYPE_CLASS_TEXT
-						| InputType.TYPE_TEXT_VARIATION_PASSWORD);
-			}
-			et_pass.setSelection(et_pass.getText().toString().length());
-			break;
+//		case R.id.bt_pwd_eye:
+//			if (et_pass.getInputType() == (InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+////				bt_pwd_eye.setBackgroundResource(R.drawable.button_eye_s);
+//				et_pass.setInputType(InputType.TYPE_CLASS_TEXT
+//						| InputType.TYPE_TEXT_VARIATION_NORMAL);
+//			} else {
+////				bt_pwd_eye.setBackgroundResource(R.drawable.button_eye_n);
+//				et_pass.setInputType(InputType.TYPE_CLASS_TEXT
+//						| InputType.TYPE_TEXT_VARIATION_PASSWORD);
+//			}
+//			et_pass.setSelection(et_pass.getText().toString().length());
+//			break;
         
 		}
 	}
@@ -281,4 +317,53 @@ public class LoginFrgmtActivity extends FragmentActivity implements
 			return super.onKeyDown(keyCode, event);
 		}
 	}
+	public Boolean spellCheck(String contectsname,String telnum) {
+		
+		if (contectsname == null || contectsname.equals("")) return false;
+		if (telnum == null || telnum.equals("")) return false;
+		
+		return true;
+	}
+	private void ContactAddDialog() {
+		final AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(this);	
+		View alertDialogView = View.inflate(this, R.layout.users_add, null);
+		final EditText contactNo = (EditText) alertDialogView.findViewById(R.id.contactno);
+		final EditText contactphonenum = (EditText) alertDialogView.findViewById(R.id.contactphonenum);
+//		if (Bundle) contactphonenum.setText(Bundle_telnum);
+		alertDialog.setTitle(getResources().getString(R.string.renameConfirmation_title));
+		alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+		alertDialog.setPositiveButton(android.R.string.ok,
+				new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+
+						if (spellCheck(contactNo.getText().toString().trim(),contactphonenum.getText().toString().trim())) {
+							String no = contactNo.getText().toString().trim();
+							String telnum = contactphonenum.getText().toString().trim();
+							if (mDbOperator.isUserExist(telnum)) {
+								Toast.makeText(getApplicationContext(), telnum + " 已存在", Toast.LENGTH_LONG).show();
+								return;
+							}
+		             		mDbOperator.insertUsers(telnum,no);
+//		             		startQuery();
+		             		Toast.makeText(getApplicationContext(), "添加成功", Toast.LENGTH_LONG).show();
+						} else {
+							Toast.makeText(getApplicationContext(), "No ", Toast.LENGTH_LONG).show();
+						}
+						
+					}
+				});
+		alertDialog.setNegativeButton(android.R.string.cancel, null);
+		AlertDialog tempDialog = alertDialog.create();
+		tempDialog.setView(alertDialogView, 0, 0, 0, 0);
+		
+		/** 3.WT6/5/3vHm<|EL **/
+		tempDialog.setOnShowListener(new OnShowListener() {
+			public void onShow(DialogInterface dialog) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.showSoftInput(contactNo, InputMethodManager.SHOW_IMPLICIT);
+			}
+		});
+		tempDialog.show();
+	} 
 }

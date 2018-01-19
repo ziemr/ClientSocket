@@ -5,9 +5,12 @@ import java.net.SocketException;
 import com.android.clientsocket.R;
 import com.android.clientsocket.socket.SocketClientManager.SocketClientCallBack;
 import com.android.clientsocket.socket.UDPSocketBroadCast.UDPDataCallBack;
+import com.android.clientsocket.ui.LoginFrgmtActivity;
+import com.android.clientsocket.ui.RecordInFrgmtActivity;
 import com.android.clientsocket.util.InitAppData;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +39,12 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				mClientManager.SendMessage("hello world");
+//				mClientManager.SendMessage("hello world");
+				
+				Intent intent = new Intent(MainActivity.this, RecordInFrgmtActivity.class);
+				MainActivity.this.startActivity(intent);
+				
+				
 			}
 		});
 		mBroadCast = new UDPSocketBroadCast();
@@ -48,7 +56,7 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 		tv_show.setText("正在自动连接中...");
-		mClientManager = SocketClientManager.getInstance();
+		mClientManager = SocketClientManager.getInstance(getApplicationContext());
 		// 接收到的udp广播
 		mBroadCast.startUDP(new UDPDataCallBack() {
 
